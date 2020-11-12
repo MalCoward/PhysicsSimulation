@@ -54,4 +54,3 @@ void ALevelOneNewton::UpdatePosition()
 	this->SetActorLocation(position);
 
 }
-

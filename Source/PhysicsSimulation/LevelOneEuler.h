@@ -23,4 +23,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
+		FVector currentPosition;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
+		FVector newPosition;
+
+	FVector currentVelocity;
+	FVector newVelocity;
+
+	FVector gravityAcc;
+
+	float startFrame;
+	float currentFrame;
+
+	void UpdatePosition();
+
 };
