@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* sphereMesh;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
 		FVector currentPosition;
 

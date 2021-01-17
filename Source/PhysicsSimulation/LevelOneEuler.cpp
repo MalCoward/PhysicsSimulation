@@ -2,7 +2,6 @@
 
 
 #include "LevelOneEuler.h"
-#include "Components/StaticMeshComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
@@ -14,9 +13,6 @@ ALevelOneEuler::ALevelOneEuler()
 
 	currentVelocity = { 1000.0f / 60, 0.0f / 60, 500.0f / 60 };
 	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
-
-	sphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("sphereMesh"));
-	RootComponent = sphereMesh;
 }
 
 // Called when the game starts or when spawned

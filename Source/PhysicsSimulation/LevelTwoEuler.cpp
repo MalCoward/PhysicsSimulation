@@ -12,7 +12,6 @@ ALevelTwoEuler::ALevelTwoEuler()
 
 	currentVelocity = { 0.0f / 60, 0.0f / 60, 0.0f / 60 };
 	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
-
 }
 
 // Called when the game starts or when spawned
