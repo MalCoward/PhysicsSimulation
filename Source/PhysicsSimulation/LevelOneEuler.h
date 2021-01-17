@@ -29,6 +29,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
 		FVector newPosition;
 
+	float radius;
+
 	FVector currentVelocity;
 	FVector newVelocity;
 

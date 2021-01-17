@@ -14,6 +14,8 @@ ALevelOneNewton::ALevelOneNewton()
 	zVelocity = 500.0f;
 	zAcceleration = -9.8 * 60;
 
+	radius = 25.0f;
+
 }
 
 // Called when the game starts or when spawned
@@ -33,15 +35,8 @@ void ALevelOneNewton::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (this->GetActorLocation().Z <= 0)
-	{
-		return;
-	}
-	else
-	{
-		currentFrame++;
-		UpdatePosition();
-	}
+	currentFrame++;
+	UpdatePosition();
 }
 
 void ALevelOneNewton::UpdatePosition()
@@ -51,6 +46,13 @@ void ALevelOneNewton::UpdatePosition()
 	position.X = originalPosition.X + (xVelocity * t);
 	position.Z = originalPosition.Z + (zVelocity * t) + ((zAcceleration * (t * t)) / 2);
 
-	this->SetActorLocation(position);
+	if (position.Z <= 0 + radius)
+	{
+		return;
+	}
+	else
+	{
+		this->SetActorLocation(position);
+	}
 
 }

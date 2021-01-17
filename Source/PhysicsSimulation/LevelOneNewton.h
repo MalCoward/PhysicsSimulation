@@ -30,6 +30,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
 		FVector originalPosition;
 
+	float radius;
+
 	float xVelocity;
 	float zVelocity;
 	float zAcceleration;

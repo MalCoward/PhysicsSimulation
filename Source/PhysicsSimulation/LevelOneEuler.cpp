@@ -13,6 +13,9 @@ ALevelOneEuler::ALevelOneEuler()
 
 	currentVelocity = { 1000.0f / 60, 0.0f / 60, 500.0f / 60 };
 	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
+
+	radius = 25.0f;
+
 }
 
 // Called when the game starts or when spawned
@@ -33,15 +36,8 @@ void ALevelOneEuler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (this->GetActorLocation().Z <= 0)
-	{
-		return;
-	}
-	else
-	{
-		currentFrame++;
-		UpdatePosition();
-	}
+	currentFrame++;
+	UpdatePosition();
 }
 
 void ALevelOneEuler::UpdatePosition()
@@ -50,9 +46,15 @@ void ALevelOneEuler::UpdatePosition()
 	newVelocity = currentVelocity + gravityAcc;
 	newPosition = currentPosition + newVelocity;
 
-	currentVelocity = newVelocity;
-	currentPosition = newPosition;
+	if (newPosition.Z <= 0 + radius)
+	{
+		return;
+	}
+	else
+	{
+		currentVelocity = newVelocity;
+		currentPosition = newPosition;
 
-	this->SetActorLocation(currentPosition);
-
+		this->SetActorLocation(currentPosition);
+	}
 }
