@@ -10,8 +10,8 @@ ALevelTwoEuler::ALevelTwoEuler()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	currentVelocity = { 0.0f / 60, 0.0f, 0.0f / 60 };
-	gravityAcc = { 0.0f, 0.0f, 0.0f / 60 };
+	currentVelocity = { 0.0f / 60, 0.0f / 60, 0.0f / 60 };
+	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
 
 }
 

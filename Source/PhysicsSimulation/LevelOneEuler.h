@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "LevelOneEuler.generated.h"
 
 UCLASS()
@@ -22,6 +23,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Sphere)
+		class UStaticMeshComponent* sphereMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Position)
 		FVector currentPosition;

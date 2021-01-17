@@ -2,6 +2,7 @@
 
 
 #include "LevelOneEuler.h"
+#include "Components/StaticMeshComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
@@ -11,9 +12,11 @@ ALevelOneEuler::ALevelOneEuler()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	currentVelocity = { 1000.0f / 60, 0.0f, 500.0f / 60 };
-	gravityAcc = { 0.0f, 0.0f, -9.8f / 60 };
+	currentVelocity = { 1000.0f / 60, 0.0f / 60, 500.0f / 60 };
+	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
 
+	sphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("sphereMesh"));
+	RootComponent = sphereMesh;
 }
 
 // Called when the game starts or when spawned
