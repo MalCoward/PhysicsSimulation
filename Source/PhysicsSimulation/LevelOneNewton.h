@@ -32,8 +32,10 @@ public:
 
 	float radius;
 
-	float xVelocity;
-	float zVelocity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
+		float xVelocity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
+		float zVelocity;
 	float zAcceleration;
 
 	float startFrame;

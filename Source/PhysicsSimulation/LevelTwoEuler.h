@@ -34,7 +34,8 @@ public:
 
 	float radius;
 
-	FVector currentVelocity;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
+		FVector currentVelocity;
 	FVector newVelocity;
 
 	FVector gravityAcc;

@@ -35,15 +35,8 @@ void ALevelTwoEuler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (this->GetActorLocation().Z <= 0)
-	{
-		return;
-	}
-	else
-	{
-		currentFrame++;
-		UpdatePosition();
-	}
+	currentFrame++;
+	UpdatePosition();
 }
 
 void ALevelTwoEuler::UpdatePosition()

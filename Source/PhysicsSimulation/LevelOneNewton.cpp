@@ -10,8 +10,8 @@ ALevelOneNewton::ALevelOneNewton()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	xVelocity = 1000.0f;
-	zVelocity = 500.0f;
+	xVelocity = 0.0f;
+	zVelocity = 0.0f;
 	zAcceleration = -9.8 * 60;
 
 	radius = 25.0f;
