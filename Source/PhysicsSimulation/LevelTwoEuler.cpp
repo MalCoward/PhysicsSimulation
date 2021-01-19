@@ -2,6 +2,7 @@
 
 #include "LevelTwoEuler.h"
 #include "CoreMinimal.h"
+#include "Math/UnrealMathUtility.h"
 #include "GameFramework/Actor.h"
 
 // Sets default values
@@ -14,6 +15,7 @@ ALevelTwoEuler::ALevelTwoEuler()
 	gravityAcc = { 0.0f / 60, 0.0f / 60, -9.8f / 60 };
 
 	radius = 25.0f;
+	mass = 1.0f;
 
 }
 
@@ -28,6 +30,11 @@ void ALevelTwoEuler::BeginPlay()
 	newPosition = currentPosition;
 	newVelocity = currentVelocity;
 
+	staticSpherePosition = staticSphere->GetActorLocation();
+	staticSphereRadius = staticSphere->GetRadius();
+
+	hasCollided = false;
+
 }
 
 // Called every frame
@@ -37,6 +44,15 @@ void ALevelTwoEuler::Tick(float DeltaTime)
 
 	currentFrame++;
 	UpdatePosition();
+
+	if (PossibleCollision())
+	{
+		if ((distanceBetweenTwoSpheres < radius + staticSphereRadius) && !hasCollided)
+		{
+			Collision();
+		}
+	}
+
 }
 
 void ALevelTwoEuler::UpdatePosition()
@@ -50,4 +66,48 @@ void ALevelTwoEuler::UpdatePosition()
 
 	this->SetActorLocation(currentPosition);
 
+}
+
+bool ALevelTwoEuler::PossibleCollision()
+{
+
+	vectorBetweenTwoSpheres = staticSpherePosition - this->GetActorLocation();
+	distanceBetweenTwoSpheres = vectorBetweenTwoSpheres.Size();
+
+	//angleBetweenVectors = FMath::RadiansToDegrees(acosf(FVector::DotProduct(vectorBetweenTwoSpheres, currentVelocity)));
+	angleBetweenVectors = FVector::DotProduct(vectorBetweenTwoSpheres, currentVelocity);
+
+	shortestDistance = FMath::Sin(angleBetweenVectors) * distanceBetweenTwoSpheres;
+
+	if (shortestDistance < radius + staticSphereRadius)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void ALevelTwoEuler::Collision()
+{
+	// Working out point of contact
+	collisionPoint = (staticSpherePosition + currentPosition) / 2;
+	staticSphereMovementVector = staticSpherePosition - collisionPoint;
+
+	//angleBetweenVectorsTwo = FMath::RadiansToDegrees(acosf(FVector::DotProduct(staticSphereMovementVector, currentVelocity)));
+	angleBetweenVectorsTwo = FVector::DotProduct(staticSphereMovementVector, currentVelocity);
+
+	staticNewVelocity = (staticSphereMovementVector / staticSphereMovementVector.Size()) * (currentVelocity.Size() * FMath::Cos(angleBetweenVectorsTwo));
+	staticSphere->SetGravity(gravityAcc);
+	staticSphere->SetVelocity(staticNewVelocity);
+
+	//First Sphere new Velocity using conservation of Momentum
+	originalMomentum = mass * (currentVelocity.Size());
+	staticNewMomentum = staticSphere->GetMass() * (staticNewVelocity.Size());
+	newMomentum = originalMomentum - staticNewMomentum; 
+
+	currentVelocity = (currentVelocity / currentVelocity.Size()) * newMomentum;
+
+	hasCollided = true;
 }

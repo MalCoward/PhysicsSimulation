@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "StaticSphere.h"
 #include "GameFramework/Actor.h"
 #include "LevelTwoEuler.generated.h"
 
@@ -33,6 +34,7 @@ public:
 		FVector newPosition;
 
 	float radius;
+	float mass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
 		FVector currentVelocity;
@@ -45,4 +47,29 @@ public:
 
 	void UpdatePosition();
 
+	// Second Ball Stuff
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
+		class AStaticSphere* staticSphere;
+
+	FVector staticSpherePosition;
+	float staticSphereRadius;
+	float staticSphereMass;
+
+	bool PossibleCollision();
+
+	FVector vectorBetweenTwoSpheres;
+	float distanceBetweenTwoSpheres;
+	float angleBetweenVectors;
+	float angleBetweenVectorsTwo;
+	float shortestDistance;
+
+	void Collision();
+	FVector collisionPoint;
+	FVector staticSphereMovementVector;
+	FVector staticNewVelocity;
+
+	bool hasCollided;
+	float originalMomentum;
+	float staticNewMomentum;
+	float newMomentum;
 };
