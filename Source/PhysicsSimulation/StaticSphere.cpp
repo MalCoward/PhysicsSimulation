@@ -103,7 +103,7 @@ void AStaticSphere::CheckForPlaneCollision()
 
 void AStaticSphere::PlaneCollision()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Collided");
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Collided");
 	currentVelocity.Z = -planeNormal.Z * currentVelocity.Z;
 	ticksAfterPlane = 0;
 	hasCollidedWithPlane = true;
