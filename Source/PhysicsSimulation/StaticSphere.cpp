@@ -27,6 +27,12 @@ void AStaticSphere::BeginPlay()
 	currentFrame = startFrame;
 	newPosition = currentPosition;
 	newVelocity = currentVelocity;
+
+	// Plane Stuff
+	hasCollidedWithPlane = false;
+	ticksAfterPlane = 0;
+
+	planeNormal = { 0.0f, 0.0f, 1.0f }; //Normal for horizontal plane
 	
 }
 
@@ -35,8 +41,22 @@ void AStaticSphere::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (hasCollidedWithPlane)
+	{
+		if (ticksAfterPlane > 3)
+		{
+			hasCollidedWithPlane = false;
+		}
+		ticksAfterPlane++;
+	}
+
 	currentFrame++;
 	UpdatePosition();
+
+	if (PossiblePlaneCollision())
+	{
+		CheckForPlaneCollision();
+	}
 
 }
 
@@ -51,6 +71,47 @@ void AStaticSphere::UpdatePosition()
 
 	this->SetActorLocation(currentPosition);
 
+}
+
+bool AStaticSphere::PossiblePlaneCollision()
+{
+	planeNormalAngle = FVector::DotProduct(planeNormal, -currentVelocity);
+	if (planeSphereAngle < 90 && (currentPosition.X < planeXMax && currentPosition.X > planeXMin && currentPosition.Y < planeYMax && currentPosition.Y > planeYMin))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void AStaticSphere::CheckForPlaneCollision()
+{
+	//// Using K as 0 0 0, with plane being at height 0
+	//planeSphereAngle = FVector::DotProduct(planeNormal, currentPosition);
+	//sphereHeight = FMath::Sin(planeSphereAngle) * currentPosition.Size();
+	//if (sphereHeight <= radius)
+	//{
+	//	PlaneCollision();
+	//}
+	if ((currentPosition.Z <= radius) && !hasCollidedWithPlane)
+	{
+		PlaneCollision();
+	}
+}
+
+void AStaticSphere::PlaneCollision()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Collided");
+	currentVelocity.Z = -planeNormal.Z * currentVelocity.Z;
+	ticksAfterPlane = 0;
+	hasCollidedWithPlane = true;
+}
+
+void AStaticSphere::SetPlaneCollision()
+{
+	hasCollidedWithPlane = false;
 }
 
 void AStaticSphere::SetVelocity(FVector velocity)

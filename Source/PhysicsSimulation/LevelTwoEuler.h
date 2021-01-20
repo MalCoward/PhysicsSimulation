@@ -20,10 +20,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* sphereMesh;
 
@@ -86,7 +82,16 @@ public:
 	void CheckForPlaneCollision();
 	void PlaneCollision();
 
-	FTimerHandle planeCollisionTimer;
 	void SetPlaneCollision();
+	int ticksAfterPlane;
+
+	float planeXMin = -2500.0f;
+	float planeXMax = 2500.0f;
+	float planeYMin = -2500.0f;
+	float planeYMax = 2500.0f;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 };
