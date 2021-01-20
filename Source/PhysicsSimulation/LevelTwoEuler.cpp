@@ -34,6 +34,10 @@ void ALevelTwoEuler::BeginPlay()
 	staticSphereRadius = staticSphere->GetRadius();
 
 	hasCollided = false;
+	hasCollidedWithPlane = false;
+
+	// Plane Stuff
+	planeNormal = { 0.0f, 0.0f, 1.0f }; //Normal for horizontal plane
 
 }
 
@@ -41,6 +45,11 @@ void ALevelTwoEuler::BeginPlay()
 void ALevelTwoEuler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (hasCollidedWithPlane)
+	{
+		GetWorld()->GetTimerManager().SetTimer(planeCollisionTimer, this, &ALevelTwoEuler::SetPlaneCollision, 0.2, false);
+	}
 
 	currentFrame++;
 	UpdatePosition();
@@ -51,6 +60,10 @@ void ALevelTwoEuler::Tick(float DeltaTime)
 		{
 			Collision();
 		}
+	}
+	if (PossiblePlaneCollision())
+	{
+		CheckForPlaneCollision();
 	}
 
 }
@@ -110,4 +123,44 @@ void ALevelTwoEuler::Collision()
 	currentVelocity = (currentVelocity / currentVelocity.Size()) * newMomentum;
 
 	hasCollided = true;
+}
+
+bool ALevelTwoEuler::PossiblePlaneCollision()
+{
+	planeNormalAngle = FVector::DotProduct(planeNormal, -currentVelocity);
+	if (planeSphereAngle < 90)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void ALevelTwoEuler::CheckForPlaneCollision()
+{
+	//// Using K as 0 0 0, with plane being at height 0
+	//planeSphereAngle = FVector::DotProduct(planeNormal, currentPosition);
+	//sphereHeight = FMath::Sin(planeSphereAngle) * currentPosition.Size();
+	//if (sphereHeight <= radius)
+	//{
+	//	PlaneCollision();
+	//}
+	if ((currentPosition.Z <= radius) && !hasCollidedWithPlane)
+	{
+		PlaneCollision();
+	}
+}
+
+void ALevelTwoEuler::PlaneCollision()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Collided");
+	currentVelocity = -planeNormal * currentVelocity;
+	hasCollidedWithPlane = true;
+}
+
+void ALevelTwoEuler::SetPlaneCollision()
+{
+	hasCollidedWithPlane = false;
 }

@@ -72,4 +72,21 @@ public:
 	float originalMomentum;
 	float staticNewMomentum;
 	float newMomentum;
+
+	// Plane Stuff
+	bool PossiblePlaneCollision();
+
+	FVector planeNormal;
+	float planeSphereAngle;
+	float planeNormalAngle;
+
+	float sphereHeight;
+	bool hasCollidedWithPlane;
+
+	void CheckForPlaneCollision();
+	void PlaneCollision();
+
+	FTimerHandle planeCollisionTimer;
+	void SetPlaneCollision();
+
 };
