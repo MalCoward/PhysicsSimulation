@@ -78,8 +78,6 @@ protected:
 
 	float sphereHeight;
 	bool hasCollidedWithPlane;
-
-	void CheckForPlaneCollision();
 	void PlaneCollision();
 
 	void SetPlaneCollision();

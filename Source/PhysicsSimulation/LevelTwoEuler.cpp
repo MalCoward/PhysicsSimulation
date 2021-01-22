@@ -68,7 +68,10 @@ void ALevelTwoEuler::Tick(float DeltaTime)
 	}
 	if (PossiblePlaneCollision())
 	{
-		CheckForPlaneCollision();
+		if ((currentPosition.Z <= radius) && !hasCollidedWithPlane)
+		{
+			PlaneCollision();
+		}
 	}
 
 }
@@ -113,7 +116,6 @@ void ALevelTwoEuler::Collision()
 	collisionPoint = (staticSpherePosition + currentPosition) / 2;
 	staticSphereMovementVector = staticSpherePosition - collisionPoint;
 
-	//angleBetweenVectorsTwo = FMath::RadiansToDegrees(acosf(FVector::DotProduct(staticSphereMovementVector, currentVelocity)));
 	angleBetweenVectorsTwo = FVector::DotProduct(staticSphereMovementVector, currentVelocity);
 
 	staticNewVelocity = (staticSphereMovementVector / staticSphereMovementVector.Size()) * (currentVelocity.Size() * FMath::Cos(angleBetweenVectorsTwo));
@@ -133,28 +135,13 @@ void ALevelTwoEuler::Collision()
 bool ALevelTwoEuler::PossiblePlaneCollision()
 {
 	planeNormalAngle = FVector::DotProduct(planeNormal, -currentVelocity);
-	if (planeSphereAngle < 90 && (currentPosition.X < planeXMax && currentPosition.X > planeXMin && currentPosition.Y < planeYMax && currentPosition.Y > planeYMin))
+	if (planeNormalAngle < 90 && (currentPosition.X < planeXMax && currentPosition.X > planeXMin && currentPosition.Y < planeYMax && currentPosition.Y > planeYMin))
 	{
 		return true;
 	}
 	else
 	{
 		return false;
-	}
-}
-
-void ALevelTwoEuler::CheckForPlaneCollision()
-{
-	//// Using K as 0 0 0, with plane being at height 0
-	//planeSphereAngle = FVector::DotProduct(planeNormal, currentPosition);
-	//sphereHeight = FMath::Sin(planeSphereAngle) * currentPosition.Size();
-	//if (sphereHeight <= radius)
-	//{
-	//	PlaneCollision();
-	//}
-	if ((currentPosition.Z <= radius) && !hasCollidedWithPlane)
-	{
-		PlaneCollision();
 	}
 }
 
